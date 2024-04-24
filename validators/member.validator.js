@@ -1,7 +1,7 @@
 "use strict";
 import * as yup from 'yup';
 
-export const memberValidator = yup.object().shape({
+export const memberLoginValidator = yup.object().shape({
     username: yup.string()
                     .typeError("Le pseudo est invalide")
                     .trim()
@@ -12,5 +12,19 @@ export const memberValidator = yup.object().shape({
                     .typeError("L'email est invalide"),
     pwd: yup.date()
                     .typeError("Le mot de passe est invalide"),
-                    //TODO pas sur du validator faut il les confirm avec ?
 })
+
+
+export const memberRegisterValidator = yup.object().shape({
+    username: yup.string()
+                    .required(),
+    email: yup.string()
+                    .email()
+                    .required(),
+    confirmEmail: yup.string()
+                    .oneOf([yup.ref('email'), null], 'Les adresses email doivent correspondre'),
+    password: yup.string()
+                    .required(),
+    confirmPassword: yup.string()
+                    .oneOf([yup.ref('password'), null], 'Les mots de passe doivent correspondre')
+  });
