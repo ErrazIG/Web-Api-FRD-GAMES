@@ -7,6 +7,7 @@ import 'express-async-errors';
 import morgan from "morgan";
 import db from "./models/index.js";
 import mainRouter from './routes/index.js';
+import { authTokenMiddleware } from './middlewares/authentification.middleware.js';
 
 //Accessibilité aux variables d'env
 const { NODE_ENV, PORT } = process.env;
@@ -21,9 +22,6 @@ if (NODE_ENV === 'dev') {
     // db.sequelize.sync({ alter: true });
     // db.sequelize.sync();
 }
-//test insert member
-// INSERT INTO members (username, email, hash_password, roleId )
-// VALUES ('ErrazIG', 'erraz-ig@example.fr', 'g4q5F64Kgq564Gg4q564Eg6q558SVg5q64g856q9', (SELECT id FROM roles WHERE name = 'admin'));
 
 
 //WEB API
@@ -33,6 +31,7 @@ const app = express();
 //Middlewares
 app.use(express.json());
 app.use(morgan('short'));
+app.use(authTokenMiddleware)
 
 //Routing
 app.use('/api', mainRouter);

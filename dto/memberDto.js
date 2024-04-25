@@ -1,7 +1,7 @@
-export class MemberDto {
-    constructor(username, email, password,) {
+export class MemberDTO {
+    constructor(username, email, role) {
       this.username = username;
       this.email = email;
-      // this.password = password;
+      this.role = role;
     }
   }

@@ -1,18 +1,39 @@
 "use stricr";
-import { MemberDto } from "../dto/memberDto.js";
+import { MemberDTO } from "../dto/memberDTO.js";
 import argon2 from "argon2";
 import db from "../models/index.js";
 
 
 const memberService = {
+
+    // login: async (username, password) => {
+    //     const member = await db.Member.find(m => m.username === username && m.password === password);
+    //     return !!member ? new MemberDTO(member) : null;
+    // },
+
+    login: async ({ username, password }) => {
+
+        const member = await db.Member.findOne({ username });
+        if (!member) {
+            return null;
+        }
+
+        const pwdIsValid = await argon2.verify(member.password, password);
+        if (!pwdIsValid) {
+            return null;
+        }
+        
+        return !!member ? new MemberDTO(member) : null;
+
+    },
+
     add: async (userData) => {
-        // console.log("userData :", userData);
 
         //Vérifier si existe deja
         const userExists = await db.Member.findOne({
             where: {
-                    email: userData.email,
-                    username: userData.username,
+                email: userData.email,
+                username: userData.username,
             }
 
         });
@@ -33,7 +54,7 @@ const memberService = {
             role_id: 3,
         });
 
-        return new MemberDto({ 
+        return new MemberDTO({
             ...userCreated.dataValues
         });
     }
