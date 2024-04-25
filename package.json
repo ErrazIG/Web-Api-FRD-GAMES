@@ -12,6 +12,7 @@
   "author": "frd vml",
   "license": "ISC",
   "dependencies": {
+    "argon2": "^0.40.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",

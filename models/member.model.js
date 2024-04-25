@@ -33,7 +33,7 @@ export default (sequelize) => {
             allowNull: false,
             
         },
-        roleId: {
+        role_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
