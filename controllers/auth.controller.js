@@ -18,7 +18,6 @@ const authController = {
     login: async (req, res) => {
         const data = req.body;
 
-        // Validation
         if (!data || !data.username || !data.password) {
             res.status(422)
                 .json({
@@ -27,7 +26,6 @@ const authController = {
             return;
         }
 
-        // Login via le service
         const member = memberService.login(data.username, data.password);
 
         if (!member) {
@@ -38,15 +36,21 @@ const authController = {
             return;
         }
 
-        // Générer le JWT
         const token = await generateJwt(member);
 
-        // Envoi du token
         res.status(200)
             .json({ token });
+        console.log("grrrrr", token.username);
+        console.log("token : ", token);
+
     },
     logout: async (req, res) => {
-        res.sendStatus(501);
+        const data = req.body;
+        console.log("token : ", token);
+        data.token.
+
+            res.status(200)
+            .json({ token });
     }
 }
 

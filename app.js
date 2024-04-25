@@ -8,6 +8,7 @@ import morgan from "morgan";
 import db from "./models/index.js";
 import mainRouter from './routes/index.js';
 import { authTokenMiddleware } from './middlewares/authentification.middleware.js';
+import data from './controllers/auth.controller.js';
 
 //Accessibilité aux variables d'env
 const { NODE_ENV, PORT } = process.env;
@@ -32,6 +33,7 @@ const app = express();
 app.use(express.json());
 app.use(morgan('short'));
 app.use(authTokenMiddleware)
+console.log("grrr", data.token)
 
 //Routing
 app.use('/api', mainRouter);

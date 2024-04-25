@@ -13,5 +13,9 @@ authRouter.route('/login')
     .post(authController.login)
     .all((_, res) => res.sendStatus(405));
 
+    authRouter.route('/logout')
+    .post(authController.logout)
+    .all((_, res) => res.sendStatus(405));
+
 
 export default authRouter;
