@@ -16,14 +16,21 @@ export const memberLoginValidator = yup.object().shape({
 
 export const memberRegisterValidator = yup.object().shape({
     username: yup.string()
-                    .required(),
+                    .typeError("Le pseudo est invalide")
+                    .required("Le pseudo est obligatoire"),
     email: yup.string()
-                    .email()
-                    .required(),
+                    .typeError("L'email est invalide")
+                    .email("le format ne correspond pas a un email")
+                    .required("L'email est obligatoire"),
     confirmEmail: yup.string()
-                    .oneOf([yup.ref('email'), null], 'Les adresses email doivent correspondre'),
+                    .typeError("L'email de confirmation est invalide")
+                    .required("L'email de confirmation est obligatoire")
+                    .oneOf([yup.ref('email')], 'Les adresses email doivent correspondre'),
     password: yup.string()
-                    .required(),
+                    .typeError("Le mot de passe est invalide")
+                    .required("L'email est obligatoire"),
     confirmPassword: yup.string()
-                    .oneOf([yup.ref('password'), null], 'Les mots de passe doivent correspondre')
+                    .typeError("Le pseudo est invalide")
+                    .required("Le mot de passe de confirmation est obligatoire")
+                    .oneOf([yup.ref('password')], 'Les mots de passe doivent correspondre')
   });
