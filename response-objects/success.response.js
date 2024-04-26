@@ -6,12 +6,3 @@ export class SuccessObjectResponse {
         this.statusCode = statusCode;
     }
 }
-
-export class SuccessArrayResponse {
-
-    constructor(results, count, statusCode = 200) {
-        this.results = results;
-        this.count = count;
-        this.statusCode = statusCode;
-    }
-}

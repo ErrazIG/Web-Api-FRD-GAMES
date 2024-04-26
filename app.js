@@ -8,7 +8,7 @@ import morgan from "morgan";
 import db from "./models/index.js";
 import mainRouter from './routes/index.js';
 import { authTokenMiddleware } from './middlewares/authentification.middleware.js';
-import data from './controllers/auth.controller.js';
+
 
 //Accessibilité aux variables d'env
 const { NODE_ENV, PORT } = process.env;
@@ -21,7 +21,7 @@ db.sequelize.authenticate()
 if (NODE_ENV === 'dev') {
     // db.sequelize.sync({ force: true });
     // db.sequelize.sync({ alter: true });
-    // db.sequelize.sync();
+    // db.sequelize.sync()
 }
 
 
@@ -32,8 +32,7 @@ const app = express();
 //Middlewares
 app.use(express.json());
 app.use(morgan('short'));
-app.use(authTokenMiddleware)
-console.log("grrr", data.token)
+app.use(authTokenMiddleware())
 
 //Routing
 app.use('/api', mainRouter);

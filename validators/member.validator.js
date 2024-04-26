@@ -8,9 +8,8 @@ export const memberLoginValidator = yup.object().shape({
                     .required("Le pseudo est obligatoire")
                     .min(2, "Le pseudo doit faire minimum 2 lettres")
                     .max(50, "Le pseudo doit faire maximum 50 lettres"),
-    email: yup.date()
-                    .typeError("L'email est invalide"),
-    pwd: yup.date()
+
+    pwd: yup.string()
                     .typeError("Le mot de passe est invalide"),
 })
 

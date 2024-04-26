@@ -11,19 +11,19 @@ const memberService = {
     //     return !!member ? new MemberDTO(member) : null;
     // },
 
-    login: async ({ username, password }) => {
+    login: async ( username, password ) => {
 
         const member = await db.Member.findOne({ username });
         if (!member) {
             return null;
         }
 
-        const pwdIsValid = await argon2.verify(member.password, password);
+        const pwdIsValid = await argon2.verify(member.hash_password, password);
         if (!pwdIsValid) {
             return null;
         }
         
-        return !!member ? new MemberDTO(member) : null;
+        return new MemberDTO(member);
 
     },
 
@@ -46,6 +46,7 @@ const memberService = {
         //Hashe pwd
         const hashedPassword = await argon2.hash(userData.password);
 
+            
         //Ajout en DB
         const userCreated = await db.Member.create({
             username: userData.username,
