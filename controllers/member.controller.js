@@ -8,7 +8,18 @@ const memberController = {
     },
 
     update: async (req, res) => {
-        res.sendStatus(501);
+
+        const memberId = req.params.id;
+        const updateData = req.body;
+        try {
+            const updatedDataMember = await memberService.update(memberId, updateData);
+            if (!updatedDataMember) {
+                return res.status(404).send({ message: 'Membre non trouvé.' });
+            }
+            res.send(updatedDataMember);
+        } catch (err) {
+            res.status(400).send(err.message);
+        }
     },
 
     delete: async (req, res) => {
