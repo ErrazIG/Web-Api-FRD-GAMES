@@ -1,5 +1,5 @@
 "use strict";
-import memberService from "../services/member.service.js";
+import authService from "../services/auth.service.js";
 import { SuccessObjectResponse } from '../response-objects/success.response.js';
 import { generateJwt } from "../utils/jwt.utils.js";
 
@@ -8,20 +8,8 @@ const authController = {
     register: async (req, res) => {
         const data = req.body;
 
-        // Remplacer ceci par le middleware de validator (via Yup)
-        if (!data || !data.username || !data.password) {
-            res.status(422)
-                .json({
-                    errorMessage: 'Invalid data'
-                });
-            return;
-        }
+        const member = await authService.register(data);
 
-
-        const member = await memberService.add(data);
-
-        // TODO Gerer si ca plante
-        // -> Error 400
 
         res.status(201)
             //faudra t'il mettre dans le futur un location vers le client react ?
@@ -30,23 +18,9 @@ const authController = {
     },
 
     login: async (req, res) => {
-
-        console.log('RES !!!!!!!!!!!!!!');
-
         const data = req.body;
 
-
-        // Remplacer ceci par le middleware de validator (via Yup)
-        if (!data || !data.username || !data.password) {
-            res.status(422)
-                .json({
-                    errorMessage: 'Invalid data'
-                });
-            return;
-        }
-
-        console.log(data);
-        const member = await memberService.login(data.username, data.password);
+        const member = await authService.login(data.username, data.password);
 
         if (!member) {
             res.status(400)
@@ -60,10 +34,7 @@ const authController = {
 
         res.status(200)
             .json({ token });
-        console.log("grrrrr", token.username);
-        console.log("token : ", token);
 
-    }
-}
-
+    },
+};
 export default authController;

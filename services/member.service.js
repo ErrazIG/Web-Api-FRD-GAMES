@@ -1,64 +1,29 @@
-"use stricr";
-import { MemberDTO } from "../dto/memberDTO.js";
-import argon2 from "argon2";
-import db from "../models/index.js";
+"use strict";
 
+import db from "../models/index.js";
 
 const memberService = {
 
-    // login: async (username, password) => {
-    //     const member = await db.Member.find(m => m.username === username && m.password === password);
-    //     return !!member ? new MemberDTO(member) : null;
-    // },
-
-    login: async ( username, password ) => {
-
-        const member = await db.Member.findOne({ username });
-        if (!member) {
-            return null;
-        }
-
-        const pwdIsValid = await argon2.verify(member.hash_password, password);
-        if (!pwdIsValid) {
-            return null;
-        }
+    update: async (memberId) => {
         
-        return new MemberDTO(member);
-
     },
 
-    add: async (userData) => {
+    delete: async (memberId) => {
 
-        //Vérifier si existe deja
-        const userExists = await db.Member.findOne({
-            where: {
-                email: userData.email,
-                username: userData.username,
+        const transaction = await db.sequelize.transaction();
+        try {
+            const member = await db.Member.findByPk(memberId);
+            if (!member) {
+                throw new Error('L\'utilisateur n\'existe pas.');
             }
 
-        });
-
-        //Si existe, error
-        if (userExists) {
-            throw new Error('L\'utilisateur existe déjà.');
+            await member.destroy({ transaction });
+            await transaction.commit();
+        } catch (error) {
+            await transaction.rollback();
+            throw error;
         }
 
-        //Hashe pwd
-        const hashedPassword = await argon2.hash(userData.password);
-
-            
-        //Ajout en DB
-        const userCreated = await db.Member.create({
-            username: userData.username,
-            email: userData.email,
-            hash_password: hashedPassword,
-            role_id: 3,
-        });
-
-        return new MemberDTO({
-            ...userCreated.dataValues
-        });
     }
 };
-
 export default memberService;
