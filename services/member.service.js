@@ -3,6 +3,8 @@
 import { MemberDTO } from "../dto/memberDTO.js";
 import db from "../models/index.js";
 
+//TODO ajouter le updatePassword, getById, getByUsername
+
 const memberService = {
   update: async (username, updateData) => {
     const transaction = await db.sequelize.transaction();
