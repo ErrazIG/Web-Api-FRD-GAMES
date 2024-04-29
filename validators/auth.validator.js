@@ -11,7 +11,7 @@ export const memberLoginValidator = yup.object().shape({
 
     pwd: yup.string()
                     .typeError("Le mot de passe est invalide"),
-})
+});
 
 
 export const memberRegisterValidator = yup.object().shape({
