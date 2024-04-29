@@ -1,5 +1,6 @@
 "use strict";
 
+import { MemberDTO } from "../dto/memberDTO.js";
 import db from "../models/index.js";
 
 const memberService = {
@@ -19,7 +20,7 @@ const memberService = {
         
             await member.update(updateData, { transaction });
             await transaction.commit();
-            return member;
+            return new MemberDTO(member);
         } catch (error) {
             await transaction.rollback();
             throw error;

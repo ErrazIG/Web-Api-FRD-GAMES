@@ -1,7 +1,8 @@
 export class MemberDTO {
-    constructor({username, email, role}) {
+    constructor({username, email, desc, role_id}) {
       this.username = username;
       this.email = email;
-      this.role = role;
+      this.desc = desc;
+      this.role_id = role_id;
     }
   }
