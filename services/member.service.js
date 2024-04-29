@@ -4,14 +4,8 @@ import { MemberDTO } from "../dto/memberDTO.js";
 import db from "../models/index.js";
 
 const memberService = {
-
-    update: async (memberId, updateData) => {
-
-        const transaction = await db.sequelize.transaction();
-        try {
-            const member = await db.Member.findByPk(memberId);
-            console.log(member);
-            console.log(updateData);
+  update: async (username, updateData) => {
+      const member = await db.Member.findOne({ where: { username } });
 
             if (!member) {
                 await transaction.rollback();
@@ -29,12 +23,8 @@ const memberService = {
 
     delete: async (memberId) => {
 
-        const transaction = await db.sequelize.transaction();
-        try {
-            const member = await db.Member.findByPk(memberId);
-            if (!member) {
-                throw new Error("L'utilisateur n'existe pas.");
-            }
+  delete: async (username) => {
+      const member = await db.Member.findOne({ where: { username } });
 
             await member.destroy({ transaction });
             await transaction.commit();
