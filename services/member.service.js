@@ -21,7 +21,7 @@ const memberService = {
 
       await member.update(updateData, { transaction });
       await transaction.commit();
-      return new MemberDTO(member);
+      return !!member ? new MemberDTO(member) : null;
     } catch (error) {
       await transaction.rollback();
       throw error;
