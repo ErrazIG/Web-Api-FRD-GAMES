@@ -8,7 +8,7 @@ const authService = {
 
     login: async (username, password) => {
 
-        const member = await db.Member.findOne({ username });
+        const member = await db.Member.findOne({ where: { username } });
         if (!member) {
             return null;
         }
