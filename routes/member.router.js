@@ -9,11 +9,15 @@ const memberRouter = Router();
 
 
 memberRouter.route("/:username")
-    .get()
+    .get(memberController.getOne)
+    .get(memberController.getMemberBestGames)
+    .get(memberController.getMemberBestScores)
     .put(bodyValidatorMiddleware(memberUpdateValidator), memberController.update)
-    .post(memberController.verifyCurrentPassword)
     .patch(bodyValidatorMiddleware(memberUpdatePwdValidator), memberController.updatePassword)
     .delete(memberController.delete)
     .all((_, res) => res.sendStatus(405));
+
+memberRouter.route("/:username/friends")
+
 
 export default memberRouter;

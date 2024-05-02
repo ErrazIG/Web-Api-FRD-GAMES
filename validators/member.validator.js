@@ -20,6 +20,10 @@ export const memberUpdateValidator = yup.object().shape({
 });
 
 export const memberUpdatePwdValidator = yup.object().shape({
+  currentPassword: yup
+    .string()
+    .typeError("Le mot de passe est invalide")
+    .required("Le mot de passe actuel est obligatoire"),
   password: yup
     .string()
     .typeError("Le mot de passe est invalide")

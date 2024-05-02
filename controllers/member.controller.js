@@ -2,9 +2,18 @@
 import memberService from "../services/member.service.js";
 
 const memberController = {
-  get: async (req, res) => {
-    res.sendStatus(501);
+  getOne: async (req, res) => {
+    const username = req.params.username;
+    const member = await memberService.getOne(username)
+
+    if(!member) {
+      res.sendStatus(404);
+      return;
+  }
+  res.status(200).json(member);
   },
+  getMemberBestGames: async (req, res) => {},
+  getMemberBestScores: async (req, res) => {},
 
   update: async (req, res) => {
     const username = req.params.username;
@@ -23,11 +32,13 @@ const memberController = {
     }
   },
 
-  verifyCurrentPassword: async (req, res) => {
+  updatePassword: async (req, res) => {
     const username = req.params.username;
-    // console.log(username);
+    // console.log("username :", username);
     const currentPassword = req.body.currentPassword;
     // console.log(currentPassword);
+    const newPwd = req.body.password;
+    // console.log("new pwd :", newPwd);
 
     try {
       const verifyCurrentPassword = await memberService.verifyCurrentPassword(
@@ -40,19 +51,6 @@ const memberController = {
           .status(401)
           .send({ message: "Mot de passe actuel incorrect." });
       }
-      res.sendStatus(200);
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-  },
-
-  updatePassword: async (req, res) => {
-    const username = req.params.username;
-    console.log("username :", username);
-    const newPwd = req.body.password;
-    console.log("new pwd :", newPwd);
-
-    try {
       const updatePwd = await memberService.updatePassword(
         username,
         newPwd

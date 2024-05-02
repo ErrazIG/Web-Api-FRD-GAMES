@@ -20,7 +20,7 @@ export default (sequelize) => {
             allowNull: false,
             unique: true,
         },
-        desc: {
+        description: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
