@@ -23,10 +23,9 @@ export default (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        status: {
-            type: DataTypes.STRING,
+        status_id: {
+            type: DataTypes.INTEGER,
             allowNull: false,
-            unique: true,
         }
     }, {
         timestamps: false,
