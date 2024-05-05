@@ -41,6 +41,11 @@ export default (sequelize) => {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        img: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            defaultValue: "../../../public/paper-bag-head/OIG3",
+        },
     }, {
         timestamps: false,
     });

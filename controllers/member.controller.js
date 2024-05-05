@@ -4,16 +4,28 @@ import memberService from "../services/member.service.js";
 const memberController = {
   getOne: async (req, res) => {
     const username = req.params.username;
-    const member = await memberService.getOne(username)
+    console.log("le user de fdp", username);
+    const member = await memberService.getOne(username);
 
-    if(!member) {
+    if (!member) {
       res.sendStatus(404);
       return;
-  }
-  res.status(200).json(member);
+    }
+    res.status(200).json(member);
   },
-  getMemberBestGames: async (req, res) => {},
-  getMemberBestScores: async (req, res) => {},
+  getMemberBestGamesScores: async (req, res) => {
+    const username = req.params.username
+    const bestGamesScores = await memberService.getMemberBestGamesScores(username);
+
+    if (!bestGamesScores) {
+      res.sendStatus(404);
+      return;
+    }
+    res.status(200).json(bestGamesScores);
+
+    
+  },
+  getMemberBestFriendsScores: async (req, res) => {},
 
   update: async (req, res) => {
     const username = req.params.username;
@@ -51,10 +63,7 @@ const memberController = {
           .status(401)
           .send({ message: "Mot de passe actuel incorrect." });
       }
-      const updatePwd = await memberService.updatePassword(
-        username,
-        newPwd
-      );
+      const updatePwd = await memberService.updatePassword(username, newPwd);
       console.log("updatePwd :", updatePwd);
       if (!updatePwd) {
         return res
@@ -68,9 +77,9 @@ const memberController = {
   },
 
   delete: async (req, res) => {
-    const memberId = req.params.id;
+    const username = req.params.username;
 
-    await memberService.delete(memberId);
+    await memberService.delete(username);
 
     res.sendStatus(200);
   },
