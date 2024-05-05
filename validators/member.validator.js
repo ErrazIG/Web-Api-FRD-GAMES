@@ -12,7 +12,9 @@ export const memberUpdateValidator = yup.object().shape({
     .string()
     .typeError("L'email est invalide")
     .required("L'email est obligatoire"),
-  desc: yup.string().typeError("La description est invalide"),
+  description: yup
+    .string()
+    .typeError("La description est invalide"),
   role_id: yup
     .string()
     .typeError("Le role est invalide")
