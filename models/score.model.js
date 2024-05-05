@@ -15,7 +15,7 @@ export default (sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        user_id: {
+        member_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
@@ -23,7 +23,11 @@ export default (sequelize) => {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        score: {
+        latestScore: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+        bestScore: {
             type: DataTypes.INTEGER,
             allowNull: true,
         }
