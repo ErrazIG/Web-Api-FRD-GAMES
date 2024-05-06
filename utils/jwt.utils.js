@@ -1,10 +1,10 @@
 "use strict";
 import jwt from 'jsonwebtoken';
 
-export const generateJwt = ({id, username, role}) => {
+export const generateJwt = ({id, username, role_id, img}) => {
     return new Promise((resolve, reject) => {
         
-        const data = {id, username, role};
+        const data = {id, username, role_id, img};
         const secret = process.env.JWT_SECRET
         const options = {
             algorithm: 'HS512',

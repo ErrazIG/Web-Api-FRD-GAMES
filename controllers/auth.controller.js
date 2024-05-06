@@ -30,6 +30,7 @@ const authController = {
             return;
         }
 
+        console.log(member);
         const token = await generateJwt(member);
 
         res.status(200)

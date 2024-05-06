@@ -35,7 +35,7 @@ const authService = {
 
         //Si existe, error
         if (userExists) {
-            throw new Error('L\'utilisateur existe déjà.');
+            return 'L\'utilisateur existe déjà.';
         }
 
         //Hashe pwd
