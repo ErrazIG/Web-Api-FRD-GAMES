@@ -25,7 +25,16 @@ const memberController = {
 
     
   },
-  getMemberBestFriendsScores: async (req, res) => {},
+  getMemberBestFriendsScores: async (req, res) => {
+    const username = req.params.username
+    const bestFriendsScores = await memberService.getMemberBestFriendsScores(username);
+
+    if (!bestFriendsScores) {
+      res.sendStatus(404);
+      return;
+    }
+    res.status(200).json(bestFriendsScores);
+  },
 
   update: async (req, res) => {
     const username = req.params.username;

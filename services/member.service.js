@@ -4,11 +4,9 @@ import { MemberDTO } from "../dto/memberDTO.js";
 import db from "../models/index.js";
 import argon2 from "argon2";
 
-//TODO ajouter le updatePassword, getById, getByUsername
-
 const memberService = {
   getOne: async (username) => {
-    const member = await db.Member.findOne({ username });
+    const member = await db.Member.findOne({ where: { username } });
 
     try {
       if (!member) {
@@ -19,11 +17,90 @@ const memberService = {
       throw new Error("L'utilisateur est introuvable");
     }
   },
-  getMemberBestGames: async (username) => {
-    const member = await db.Member.findOne({ username });
-    
+  //TODO A REPARER D'URGENCE
+  getMemberBestGamesScores: async (username) => {
+    try {
+      const member = await db.Member.findOne({
+        where: { username },
+      });
+
+      if (!member) {
+        console.log(
+          `Membre avec le nom d'utilisateur "${username}" introuvable.`
+        );
+        return;
+      }
+      var scores = [];
+      scores = await db.Score.findAll({
+        where: { member_id: member.id },
+        order: [["bestScore", "DESC"]],
+        limit: 3,
+        include: db.Game
+      });
+      // console.log("score", scores);
+
+      const formattedScores = scores.map((score) => {
+        // console.log("un seul score tout seul");
+
+        // console.log(JSON.stringify(score, undefined, 4));
+
+        return {
+          game_id: score.game_id,
+          bestScore: score.bestScore,
+          name: score.game.name,
+          img: score.game.img,
+        };
+      });
+
+      return formattedScores;
+    } catch (error) {
+      console.error("Erreur lors de la récupération des scores :", error);
+    }
   },
-  getMemberBestScores: async (username) => {},
+
+  getMemberBestFriendsScores: async (username) => {
+
+    try {
+      const member = await db.Member.findOne({
+        where: { username },
+      });
+
+      if (!member) {
+        console.log(
+          `Membre avec le nom d'utilisateur "${username}" introuvable.`
+        );
+        return;
+      }
+      var scores = [];
+      scores = await db.Score.findAll({
+        where: { member_id: member.id },
+        order: [["bestScore", "DESC"]],
+        limit: 3,
+        include: [
+          { model: db.Game },
+          { model: db.Member }
+      ]
+      });
+      console.log("score $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$", scores);
+
+      const formattedScores = scores.map((score) => {
+        // console.log("un seul score tout seul");
+
+        console.log("GAGOUGAGAGOUGAGOUGAGAGAGOUGAGAGOUGAGOUGAGAGAGOUGAGAGOUGAGOUGAGAGAGOUGAGAGOUGAGOUGAGA", JSON.stringify(score, undefined, 4));
+
+        return {
+          game_id: score.game_id,
+          bestScore: score.bestScore,
+          name: score.member.username,
+          img: score.member.img,
+        };
+      });
+
+      return formattedScores;
+    } catch (error) {
+      console.error("Erreur lors de la récupération des scores :", error);
+    }
+  },
   update: async (username, updateData) => {
     const transaction = await db.sequelize.transaction();
     try {
