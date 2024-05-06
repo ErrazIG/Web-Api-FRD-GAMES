@@ -7,6 +7,11 @@ const gamesService = {
     console.log(games);
     return games;
   },
+  getOne: async (id) => {
+    console.log(id);
+    const game = await db.Game.findByPk(id);
+    return game;
+  },
   getGameIds: async () => {
     try {
       const gameIds = await db.Score.findAll({
@@ -18,26 +23,6 @@ const gamesService = {
       return gameIds.map((score) => score.game_id);
     } catch (error) {
       console.error("Erreur lors de la récupération des game_id :", error);
-      return [];
-    }
-  },
-  //TODO DEMANDE POURQUOI ICI ON A BBESOIN D UNE FONCTION NORMALE ET NON FLECHEE ?????
-  getFeaturedGames: async function() {
-    try {
-      const gameIds = await this.getGameIds();
-      const featuredGameIds = findMostFrequentIntegers(gameIds);
-      const featuredGames = await db.Game.findAll({
-        where: {
-          id: featuredGameIds, 
-        },
-      });
-      console.log(featuredGames);
-      return featuredGames;
-    } catch (error) {
-      console.error(
-        "Erreur lors de la récupération des jeux en vedette :",
-        error
-      );
       return [];
     }
   },
