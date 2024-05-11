@@ -1,10 +1,11 @@
+import db from "../models/index.js";
 import { findMostFrequentIntegers } from "../utils/mostFrequentFeaturedGames.js";
+import gamesService from './games.service.js';
 
 const featuredGamesService = {
-  //TODO DEMANDE POURQUOI ICI ON A BBESOIN D UNE FONCTION NORMALE ET NON FLECHEE ????? ca creer une erreur avec getgam
   getFeaturedGames: async () => {
     try {
-      const gameIds = await this.getGameIds();
+      const gameIds = await gamesService.getGameIds();
       const featuredGameIds = findMostFrequentIntegers(gameIds);
       console.log("1", featuredGameIds);
 

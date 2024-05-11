@@ -9,9 +9,10 @@ gameRouter.route('/')
     .get(gameController.getGames)
     .all((_, res) => res.sendStatus(405));
 
-gameRouter.route('/:id')
+gameRouter.route('/:id([0-9]+)')
     .get(gameController.getOne)
     .all((_, res) => res.sendStatus(405));
+
 
 gameRouter.route('/ids')
     .get(gameController.getGamesIds)
@@ -20,7 +21,6 @@ gameRouter.route('/ids')
 gameRouter.route('/featured-games')
     .get(featuredGameController.getFeaturedGames)
     .all((_, res) => res.sendStatus(405));
-
 
 
 export default gameRouter;
